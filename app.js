@@ -1,5 +1,5 @@
 const yargs = require('yargs')
-const noteMod = require('./notes.js')
+const notes = require('./notes.js')
 
 yargs.command({
     command: 'add',
@@ -16,8 +16,8 @@ yargs.command({
             type: 'string'
         }
     },
-    handler(argv){
-        noteMod.addNote(argv.title,argv.body)
+    handler(argv) {
+        notes.addNote(argv.title, argv.body)
     }
 })
 
@@ -31,16 +31,16 @@ yargs.command({
             type: 'string'
         }
     },
-    handler(argv){
-        noteMod.removeNote(argv.title)
+    handler(argv) {
+        notes.removeNote(argv.title)
     }
 })
 
 yargs.command({
     command: 'list',
     describe: 'List all notes using note titles',
-    handler(){
-        noteMod.listNotes()
+    handler() {
+        notes.listNotes()
     }
 })
 
@@ -54,8 +54,8 @@ yargs.command({
             type: 'string'
         }
     },
-    handler(argv){
-        noteMod.readNotes(argv.title)
+    handler(argv) {
+        notes.readNotes(argv.title)
     }
 })
 

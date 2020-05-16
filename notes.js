@@ -2,91 +2,91 @@ const fs = require('fs')
 const myColor = require('chalk')
 
 const loadNotes = (() => {
-    try{
+    try {
         return JSON.parse(fs.readFileSync('notes.json').toString())
-    }catch(e){
+    } catch (e) {
         return []
     }
 })
 
 const saveNotes = ((notes) => {
-    fs.writeFileSync('notes.json',JSON.stringify(notes))
+    fs.writeFileSync('notes.json', JSON.stringify(notes))
 })
 
-const addNotes = ((title,body) => {
+const addNote = ((title, body) => {
     const data = loadNotes()
     const dup = data.find((note) => {
         return note.title === title
     })
 
 
-    if(!dup){
+    if (!dup) {
         data.push({
-            title: title,
-            body: body 
+            title,
+            body
         })
         saveNotes(data)
         console.log(myColor.greenBright.bold.inverse('Note Added!'))
     }
-    else{
+    else {
         console.log(myColor.red.bold.inverse('Title already exists'))
     }
 })
 
-const delNote = ((title) => {
+const removeNote = ((title) => {
     const data = loadNotes()
 
     const newAr = data.filter((d) => {
         return d.title !== title
     })
 
-    if(newAr.length === data.length){
+    if (newAr.length === data.length) {
         console.log(myColor.red.bold.inverse("Note doesn't exist"))
     }
-    else{
+    else {
         saveNotes(newAr)
         console.log(myColor.greenBright.bold.inverse("Note deleted"))
     }
 
 })
 
-const lNotes = () => {
-    
-    try{
+const listNotes = () => {
+
+    try {
         const data = loadNotes()
         console.log(myColor.blueBright.bold('Your Notes:'))
         data.forEach(element => {
             console.log(element.title)
         });
     }
-    catch(e){
+    catch (e) {
         console.log(myColor.red.inverse("You have no notes"))
     }
 }
 
-const rNotes = (title) => {
-    try{
+const readNotes = (title) => {
+    try {
         const data = loadNotes()
         const found = data.find((element) => {
             return element.title === title
         })
 
-        if(found !== undefined){
+        if (found !== undefined) {
             console.log(myColor.yellowBright(found.title))
             console.log(found.body)
         }
-        else{
+        else {
             console.log(myColor.red.inverse('There is no note with title ' + title))
         }
     }
-    catch(e){
+    catch (e) {
         console.log(myColor.red.inverse("You have no notes"))
     }
 }
 
 module.exports = {
-    addNote: addNotes,
-    removeNote: delNote,
-    listNotes: lNotes,
-    readNotes: rNotes
+    addNote,
+    removeNote,
+    listNotes,
+    readNotes
 }
